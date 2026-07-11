@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-api
+  labels:
+    app: photo-api
+spec:
+  replicas: 3   # run 3 copies for load handling + redundancy
+  selector:
+    matchLabels:
+      app: photo-api
+  template:
+    metadata:
+      labels:
+        app: photo-api
+    spec:
+      containers:
+        - name: photo-api
+          image: photo-ai-platform-api:latest   # would point to your ECR/registry image in real deployment
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: photo-secrets
+                  key: database-url
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: photo-secrets
+                  key: anthropic-api-key
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
