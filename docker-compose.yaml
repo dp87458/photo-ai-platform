@@ -5,7 +5,7 @@ services:
     image: pgvector/pgvector:pg16
     container_name: photo-postgres
     environment:
-      POSTGRES_PASSWORD: mypassword123
+      POSTGRES_PASSWORD: yourpassword
       POSTGRES_DB: photos_db
     ports:
       - "5432:5432"
@@ -31,9 +31,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgresql://postgres:mypassword123@postgres:5432/photos_db
+      DATABASE_URL: postgresql://postgres:yourpassword@postgres:5432/photos_db
       MONGO_URL: mongodb://mongo:27017
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       GROQ_API_KEY: ${GROQ_API_KEY}
     depends_on:
       postgres:
