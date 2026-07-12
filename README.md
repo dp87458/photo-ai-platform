@@ -70,3 +70,24 @@ pytest tests/
 
 ## Design Decisions
 See `DESIGN_DECISIONS.md` for detailed reasoning behind technology choices.
+
+## Testing
+
+Automated tests cover core logic across the AI pipeline — hash consistency, 
+cosine similarity calculations, and categorization output validation.
+
+Run the test suite:
+\`\`\`bash
+pytest tests/ -v
+\`\`\`
+
+**Coverage includes:**
+- MD5 hash consistency (deduplication)
+- Cosine similarity correctness and bounds (CLIP embedding comparisons)
+- Perceptual hash similarity scoring (near-duplicate detection)
+- Categorization output validation (returns a valid category with a 
+  confidence score between 0 and 1)
+
+Note: the video walkthrough focuses on the live system demo and architecture; 
+the test suite is included here in `tests/test_pipeline.py` and can be run 
+directly against the codebase.
